@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Flappy Bird</title>
+<style>
+    body {
+        margin: 0;
+        padding: 0;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        background-color: #70c5ce;
+    }
+
+    canvas {
+        border: 2px solid #000;
+    }
+</style>
+</head>
+<body>
+<canvas id="canvas" width="480" height="320"></canvas>
+<script>
+    const canvas = document.getElementById('canvas');
+    const ctx = canvas.getContext('2d');
+
+    const bird = {
+        x: 50,
+        y: canvas.height / 2,
+        radius: 20,
+        velocityY: 0,
+        gravity: 0.6,
+        jump: -10
+    };
+
+    function drawBird() {
+        ctx.beginPath();
+        ctx.arc(bird.x, bird.y, bird.radius, 0, Math.PI * 2);
+        ctx.fillStyle = '#f44';
+        ctx.fill();
+        ctx.closePath();
+    }
+
+    function updateBird() {
+        bird.velocityY += bird.gravity;
+        bird.y += bird.velocityY;
+    }
+
+    function clearCanvas() {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+    }
+
+    function draw() {
+        clearCanvas();
+        drawBird();
+        updateBird();
+        requestAnimationFrame(draw);
+    }
+
+    function jump() {
+        bird.velocityY = bird.jump;
+    }
+
+    document.addEventListener('keydown', function(event) {
+        if (event.code === 'Space') {
+            jump();
+        }
+    });
+
+    draw();
+</script>
+</body>
+</html>
